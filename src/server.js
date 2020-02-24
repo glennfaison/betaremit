@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const passport = require('passport')
+const localStrategy = require('./strategies/local')
 
 /**
  * Return a string of repeated characters, long enough to fill one row of the console.
@@ -14,10 +16,14 @@ const horizontalLine = (char = '-') => char.repeat(process.stdout.columns)
  */
 function createServer () {
   const server = express()
+
   // Configure express for CORS and request parsing
   server.use(cors())
   server.use(bodyParser.urlencoded({ extended: false }))
   server.use(bodyParser.json())
+
+  // Select passport strategy
+  passport.use('local', localStrategy)
 
   // Default error handler
   server.use((err, req) => {
