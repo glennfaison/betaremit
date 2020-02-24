@@ -1,5 +1,5 @@
 const { Strategy: LocalStrategy } = require('passport-local')
-const User = require('../models/user')
+const { User } = require('../models')
 
 // Passport.js local authentication strategy (username and password auth)
 const localStrategy = new LocalStrategy(
