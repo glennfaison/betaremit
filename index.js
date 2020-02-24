@@ -10,9 +10,12 @@ const server = createServer()
 server.listen(config.port, () => {
   console.log(`Listening on port http://localhost:${config.port} in ${config.env} mode`)
 
+  // Connect to mongodb
   mongoose.connect(config.mongoUrl, { useNewUrlParser: true }).then((connection) => {
-    connection.set('debug', true)
-    // Load products from JSON file
+    if (config.env === 'development') {
+      connection.set('debug', true)
+    }
+    // Preload products from JSON file if they are not in the database
     loadProductsFromJsonFile(connection, './preload/Products.json')
   }).catch((err) => {
     // If we're here, we failed to connect to the DB
