@@ -75,6 +75,7 @@ UserSchema.methods.toAuthJSON = function () {
 
 UserSchema.methods.toJSON = function () {
   return {
+    id: this._id,
     firstName: this.firstName,
     otherNames: this.otherNames,
     username: this.username,

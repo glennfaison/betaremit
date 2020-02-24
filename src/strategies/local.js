@@ -1,5 +1,7 @@
 const { Strategy: LocalStrategy } = require('passport-local')
 const { User } = require('../models')
+const { jwtSecret } = require('../../config')
+const expressJwt = require('express-jwt')
 
 // Passport.js local authentication strategy (username and password auth)
 const localStrategy = new LocalStrategy(
@@ -12,5 +14,15 @@ const localStrategy = new LocalStrategy(
       return done(null, user)
     }).catch(done)
   })
+
+function getTokenFromHeader (req) {
+  return req.headers.token
+}
+
+localStrategy.auth = expressJwt({
+  secret: jwtSecret,
+  userProperty: 'auth',
+  getToken: getTokenFromHeader
+})
 
 module.exports = localStrategy

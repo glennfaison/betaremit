@@ -33,7 +33,13 @@ const ProductSchema = new mongoose.Schema({
 
 ProductSchema.methods.toJSON = function () {
   return {
-    ...this
+    id: this._id,
+    available: this.available,
+    warranty_years: this.warranty_years,
+    type: this.type,
+    name: this.name,
+    price: this.price,
+    rating: this.rating
   }
 }
 

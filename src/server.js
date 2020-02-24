@@ -25,6 +25,9 @@ function createServer () {
   // Select passport strategy
   passport.use('local', localStrategy)
 
+  // Declare API routes
+  server.use('/api/v1', require('./routes'))
+
   // Default error handler
   server.use((err, req) => {
     if (err) {
