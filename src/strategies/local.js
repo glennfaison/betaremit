@@ -9,14 +9,14 @@ const localStrategy = new LocalStrategy(
   (email, password, done) => {
     User.findOne({ email }).then((user) => {
       if (!user || !user.passwordIsValid(password)) {
-        return done(null, false, { errors: { 'email or password': 'is invalid' } })
+        return done(null, false, { error: { 'email and/or password': 'is incorrect' } })
       }
       return done(null, user)
     }).catch(done)
   })
 
 function getTokenFromHeader (req) {
-  return req.headers.token
+  return req.headers.authorization && req.headers.authorization.match(/Bearer (.+)/)[1]
 }
 
 localStrategy.auth = expressJwt({

@@ -3,6 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const localStrategy = require('./strategies/local')
+const HttpStatus = require('http-status-codes')
 
 /**
  * Return a string of repeated characters, long enough to fill one row of the console.
@@ -29,8 +30,11 @@ function createServer () {
   server.use('/api/v1', require('./routes'))
 
   // Default error handler
-  server.use((err, req) => {
+  server.use((err, req, res, next) => {
     if (err) {
+      if (err.name === 'UnauthorizedError') {
+        return res.sendStatus(HttpStatus.UNAUTHORIZED)
+      }
       console.log(horizontalLine())
       console.log('\x1b[33m%s\x1b[0m', `An error occured: ${err}`)
       console.dir({
@@ -41,6 +45,7 @@ function createServer () {
         params: req.params
       }, { colors: true })
       console.log(horizontalLine())
+      return res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     }
   })
 
