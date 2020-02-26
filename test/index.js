@@ -1,1 +1,1 @@
-require('./routes/auth')
+require('./routes')

@@ -23,6 +23,9 @@ router.get('/products', auth, async (req, res, next) => {
 
 // Get product(s) by id
 router.get('/products/:id', auth, async (req, res, next) => {
+  if (req.params.id === undefined) {
+    return res.sendStatus(HttpStatus.BAD_REQUEST)
+  }
   const product = await Product.findById(req.params.id).catch(next)
   if (!product) { return res.sendStatus(HttpStatus.NOT_FOUND) }
   return res.status(HttpStatus.OK).json({ data: product })
@@ -40,7 +43,7 @@ router.put('/products/:id', auth, async (req, res, next) => {
 // Delete product by id
 router.delete('/products/:id', auth, async (req, res, next) => {
   const result = await Product.deleteOne({ _id: req.params.id }).catch(next)
-  if (result.deletedCount < 1) { return res.status(HttpStatus.NOT_MODIFIED).json({ data: result }) }
+  if (result.deletedCount < 1) { return res.sendStatus(HttpStatus.NOT_MODIFIED) }
   return res.status(HttpStatus.OK).json({ data: result })
 })
 
