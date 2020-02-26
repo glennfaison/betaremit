@@ -18,8 +18,6 @@ const user = {
   email: faker.internet.email(this.firstName, this.otherNames),
   bio: `${faker.name.jobTitle()} at ${faker.name.jobArea()}.`
 }
-const _user = new User(user)
-_user.setPassword(user.password)
 
 describe('ping test', () => {
   it('should return a status code of 200', done => {
@@ -72,8 +70,23 @@ describe('API auth endpoint', () => {
   })
 
   describe('PUT /login', () => {
+    it('should yield a status code of 200', done => {
+      User.deleteMany({}, () => {
+        const _user = new User(user)
+        _user.setPassword(user.password)
+        _user.save({}, () => {
+          chai.request(server).put('/api/v1/auth/login').send({ user }).end((_err, res) => {
+            expect(res).to.have.status(HttpStatus.OK)
+            done()
+          })
+        })
+      })
+    })
+
     it('should yield a response with a \'data.token\' field of type \x1b[33mString\x1b[0m', done => {
       User.deleteMany({}, () => {
+        const _user = new User(user)
+        _user.setPassword(user.password)
         _user.save({}, () => {
           chai.request(server).put('/api/v1/auth/login').send({ user }).end((_err, res) => {
             expect(res.body).to.have.property('data')
@@ -85,19 +98,10 @@ describe('API auth endpoint', () => {
       })
     })
 
-    it.only('should yield a status code of 200', done => {
-      User.deleteMany({}, () => {
-        _user.save({}, () => {
-          chai.request(server).put('/api/v1/auth/login').send({ user }).end((_err, res) => {
-            expect(res).to.have.status(HttpStatus.OK)
-            done()
-          })
-        })
-      })
-    })
-
     it('yields a status code of 400 if login is attempted with invalid credentials', done => {
       User.deleteMany({}, () => {
+        const _user = new User(user)
+        _user.setPassword(user.password)
         _user.save({}, () => {
           chai.request(server).put('/api/v1/auth/login').send({ user: { ...user, password: 'invalid' } }).end((_err, res) => {
             expect(res).to.have.status(HttpStatus.BAD_REQUEST)
