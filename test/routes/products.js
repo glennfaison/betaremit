@@ -2,6 +2,8 @@ const { describe, it } = require('mocha')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 
+const server = require('../..')
+
 chai.use(chaiHttp)
 // const expect = chai.expect
 

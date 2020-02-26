@@ -1,2 +1,1 @@
-// Include the API tests
-require('./routes')
+require('./routes/auth')

@@ -1,5 +1,12 @@
 const config = {}
 
+config.testing = {
+  env: 'testing',
+  port: 3210,
+  jwtSecret: 'This is a secret!',
+  mongoUrl: 'mongodb://localhost/test'
+}
+
 config.development = {
   env: 'development',
   port: 3000,

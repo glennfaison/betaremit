@@ -8,7 +8,7 @@ const localStrategy = new LocalStrategy(
   { usernameField: 'user[email]', passwordField: 'user[password]' },
   (email, password, done) => {
     User.findOne({ email }).then((user) => {
-      if (!user || !user.passwordIsValid(password)) {
+      if (!user || !user.createHash(password)) {
         return done(null, false, { error: { 'email and/or password': 'is incorrect' } })
       }
       return done(null, user)

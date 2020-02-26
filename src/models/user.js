@@ -42,7 +42,7 @@ UserSchema.methods.setPassword = function (password) {
   this.hash = _crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
 }
 
-UserSchema.methods.passwordIsValid = function (password) {
+UserSchema.methods.createHash = function (password) {
   var hash = _crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex')
   return this.hash === hash
 }
@@ -63,6 +63,7 @@ UserSchema.methods.generateJWT = function () {
 
 UserSchema.methods.toAuthJSON = function () {
   return {
+    id: this._id,
     firstName: this.firstName,
     otherNames: this.otherNames,
     username: this.username,

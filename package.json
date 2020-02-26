@@ -4,7 +4,7 @@
   "description": "A simple CRUD app for products ",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "NODE_ENV=testing mocha test"
   },
   "repository": {
     "type": "git",

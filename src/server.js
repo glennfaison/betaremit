@@ -29,6 +29,10 @@ function createServer () {
   // Declare API routes
   server.use('/api/v1', require('./routes'))
 
+  server.use('/ping', (req, res) => {
+    return res.sendStatus(200)
+  })
+
   // Default error handler
   server.use((err, req, res, next) => {
     if (err) {

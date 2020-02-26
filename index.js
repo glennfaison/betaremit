@@ -34,3 +34,5 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (err) => {
   console.log(`There was an unhandled rejection: ${err}`)
 })
+
+module.exports = server
