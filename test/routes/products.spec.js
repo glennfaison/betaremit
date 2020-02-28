@@ -30,34 +30,6 @@ const invalidObjectId = '1'.repeat(24)
 
 describe('API products endpoint', () => {
   describe('POST /products', () => {
-    it.skip('should yield a response with a \'data.id\' field of type \x1b[33mString\x1b[0m', done => {
-      User.deleteMany({}, () => {
-        const _user = new User(user)
-        _user.setPassword(user.password)
-        const token = _user.generateJWT()
-        _user.save({}, () => {
-          chai.request(server).post('/api/v1/products').set('authorization', `Bearer ${token}`).send({ product }).end((_err, res) => {
-            expect(res.body.data.id).to.be.a('string')
-            done()
-          })
-        })
-      })
-    })
-
-    it.skip('should yield a status code of 201', done => {
-      User.deleteMany({}, () => {
-        const _user = new User(user)
-        _user.setPassword(user.password)
-        const token = _user.generateJWT()
-        _user.save({}, () => {
-          chai.request(server).post('/api/v1/products').set('authorization', `Bearer ${token}`).send({ product }).end((_err, res) => {
-            expect(res).to.have.status(HttpStatus.CREATED)
-            done()
-          })
-        })
-      })
-    })
-
     it('should yield a status code of 403 if sender is not authorized', done => {
       chai.request(server).post('/api/v1/products').set('authorization', 'Bearer invalid').send({ product }).end((_err, res) => {
         expect(res).to.have.status(HttpStatus.UNAUTHORIZED)

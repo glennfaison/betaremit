@@ -9,16 +9,21 @@ config.testing = {
 
 config.development = {
   env: 'development',
-  port: 3000,
+  port: 4000,
   jwtSecret: 'This is a secret!',
   mongoUrl: 'mongodb://localhost/betaremit'
 }
 
+let productionEnv = require('dotenv').config()
+// If the .env file was not read, stop the app
+if (productionEnv.error) {
+  process.exit(-1)
+}
+
+productionEnv = productionEnv.parsed
 config.production = {
   env: 'production',
-  port: 5000,
-  jwtSecret: 'This is a secret!',
-  mongoUrl: 'mongodb://localhost/betaremit'
+  ...productionEnv
 }
 
 const mode = process.env.NODE_ENV || 'development'
