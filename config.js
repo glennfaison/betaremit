@@ -16,7 +16,8 @@ config.development = {
 
 let productionEnv = require('dotenv').config()
 // If the .env file was not read, stop the app
-if (productionEnv.error) {
+if (process.env.NODE_ENV === 'production' && productionEnv.error) {
+  console.log('Could not find .env file')
   process.exit(-1)
 }
 
