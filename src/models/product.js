@@ -18,7 +18,7 @@ const ProductSchema = new mongoose.Schema({
   warranty_years: {
     type: Number,
     required: true,
-    validate: value => value > 0
+    validate: value => value >= 0
   },
   rating: {
     type: Number,
