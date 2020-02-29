@@ -50,6 +50,12 @@ router.put('/products/:id/rating', auth, async (req, res, next) => {
   return res.status(HttpStatus.OK).json({ data: { rating: oldProduct.toJSON().rating } })
 })
 
+// Get product rating by id
+router.get('/products/:id/rating', auth, async (req, res, next) => {
+  const product = await Product.findById(req.params.id)
+  return res.status(HttpStatus.OK).json({ data: { rating: product.toJSON().rating } })
+})
+
 // Delete product by id
 router.delete('/products/:id', auth, async (req, res, next) => {
   const result = await Product.deleteOne({ _id: req.params.id }).catch(next)
