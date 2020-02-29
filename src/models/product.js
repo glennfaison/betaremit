@@ -38,10 +38,11 @@ const ProductSchema = new mongoose.Schema({
 ProductSchema.methods.addRating = function (rating) {
   this.ratingCount++
   if (this.ratingCount === 1) {
-    this.rating = rating
+    this.rating = Number(rating).toPrecision(2)
     return
   }
   this.rating = ((this.rating * (this.ratingCount - 1)) + rating) / this.ratingCount
+  this.rating = Number(this.rating).toPrecision(2)
 }
 
 ProductSchema.methods.toJSON = function () {
@@ -52,7 +53,8 @@ ProductSchema.methods.toJSON = function () {
     type: this.type,
     name: this.name,
     price: this.price,
-    rating: this.rating
+    rating: this.rating,
+    ratingCount: this.ratingCount
   }
 }
 
