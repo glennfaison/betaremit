@@ -24,12 +24,25 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: false
   },
+  ratingCount: {
+    type: Number,
+    default: 0
+  },
   available: {
     type: Boolean,
     required: true,
     default: true
   }
 }, { timestamps: true })
+
+ProductSchema.methods.addRating = function (rating) {
+  this.ratingCount++
+  if (this.ratingCount === 1) {
+    this.rating = rating
+    return
+  }
+  this.rating = ((this.rating * (this.ratingCount - 1)) + rating) / this.ratingCount
+}
 
 ProductSchema.methods.toJSON = function () {
   return {
