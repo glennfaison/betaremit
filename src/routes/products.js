@@ -42,7 +42,7 @@ router.put('/products/:id', auth, async (req, res, next) => {
 })
 
 // Modify product rating by id
-router.put('/products/:id', auth, async (req, res, next) => {
+router.put('/products/:id/rating', auth, async (req, res, next) => {
   const oldProduct = await Product.findById(req.params.id)
   oldProduct.addRating(req.body.rating)
 
