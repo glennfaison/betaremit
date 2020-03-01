@@ -9,6 +9,8 @@ router.post('/products', auth, async (req, res, next) => {
   const product = new Product(otherKeys)
 
   const result = await product.save().catch(next)
+  // Emit a message to connected clients
+  req.app.io.emit('productsChanged')
   return res.status(HttpStatus.CREATED).json({ data: result })
 })
 
@@ -61,6 +63,8 @@ router.get('/products/:id/rating', auth, async (req, res, next) => {
 router.delete('/products/:id', auth, async (req, res, next) => {
   const result = await Product.deleteOne({ _id: req.params.id }).catch(next)
   if (result.deletedCount < 1) { return res.sendStatus(HttpStatus.NOT_MODIFIED) }
+  // Emit a message to connected clients
+  req.app.io.emit('productsChanged')
   return res.status(HttpStatus.OK).json({ data: result })
 })
 

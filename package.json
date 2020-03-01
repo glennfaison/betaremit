@@ -19,6 +19,7 @@
   "homepage": "https://github.com/glennfaison/betaremit#readme",
   "devDependencies": {
     "@types/mongoose": "^5.7.1",
+    "@types/socket.io": "^2.1.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
@@ -42,6 +43,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "socket.io": "^2.3.0"
   }
 }

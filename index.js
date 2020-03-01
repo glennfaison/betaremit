@@ -1,4 +1,6 @@
 const createServer = require('./src/server')
+const express = require('express')
+const path = require('path')
 const config = require('./config')
 const mongoose = require('mongoose')
 const { loadProductsFromJsonFile } = require('./preload')
@@ -6,8 +8,15 @@ const { loadProductsFromJsonFile } = require('./preload')
 // Create the server
 const server = createServer()
 
+// Serve the public folder
+server.use('/', express.static(path.join(__dirname, 'public')))
+
+// Configure a socket
+const httpServer = require('http').createServer(server)
+server.io = require('socket.io').listen(httpServer)
+
 // Start the server
-server.listen(config.port, () => {
+httpServer.listen(config.port, () => {
   console.log(`Listening on port http://localhost:${config.port} in ${config.env} mode`)
 
   // Connect to mongodb
@@ -35,4 +44,4 @@ process.on('unhandledRejection', (err) => {
   console.log(`There was an unhandled rejection: ${err}`)
 })
 
-module.exports = server
+module.exports = httpServer
