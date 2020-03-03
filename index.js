@@ -15,6 +15,9 @@ server.use('/', express.static(path.join(__dirname, 'public')))
 const httpServer = require('http').createServer(server)
 server.io = require('socket.io').listen(httpServer)
 
+// Allow Cross Domain Requests
+server.io.set('transports', ['websocket'])
+
 // Start the server
 httpServer.listen(config.port, () => {
   console.log(`Listening on port http://localhost:${config.port} in ${config.env} mode`)
