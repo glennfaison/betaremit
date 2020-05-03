@@ -1,2 +1,2 @@
 # betaremit
-A simple client-server application to manage products
+A simple node.js server application to manage products
